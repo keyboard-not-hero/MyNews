@@ -44,7 +44,7 @@ public class ThirdFragment extends Fragment {
     private List<String> res;
     //    private TextView mTextView;
     private static String httpUrl = "http://apis.baidu.com/showapi_open_bus/channel_news/search_news";
-    private static String httpArg = "channelId=5572a108b3cdc86cf39001d3"
+    private static String httpArg = "channelId=5572a10ab3cdc86cf39001f0"
             + "&channelName=%E5%9B%BD%E5%86%85%E6%9C%80%E6%96%B0"
             + "&title=%E4%B8%8A%E5%B8%82"
             + "&page=1"
