@@ -44,7 +44,7 @@ public class SecondFragment extends Fragment {
     private List<String> res;
     //    private TextView mTextView;
     private static String httpUrl = "http://apis.baidu.com/showapi_open_bus/channel_news/search_news";
-    private static String httpArg = "channelId=5572a10ab3cdc86cf39001ef"
+    private static String httpArg = "channelId=5572a10ab3cdc86cf39001eb"
             + "&channelName=%E5%9B%BD%E5%86%85%E6%9C%80%E6%96%B0"
             + "&title=%E4%B8%8A%E5%B8%82"
             + "&page=1"
@@ -142,8 +142,10 @@ public class SecondFragment extends Fragment {
                         reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
                         sb = new StringBuilder();
                         String line = "";
-                        while ((line = reader.readLine()) != null)
+                        while ((line = reader.readLine()) != null) {
                             sb.append(line);
+//                            sb.append("\r\n");
+                        }
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     } catch (IOException e) {

@@ -43,13 +43,9 @@ public class FirstFragment extends Fragment {
     private List<NewsPager> newsList;
     private List<String> res;
 
-    private static String httpUrl = "http://apis.baidu.com/showapi_open_bus/channel_news/search_news";
-    private static String httpArg = "channelId=5572a10ab3cdc86cf39001ee"
-            + "&channelName=%E5%9B%BD%E5%86%85%E6%9C%80%E6%96%B0"
-            + "&title=%E4%B8%8A%E5%B8%82"
-            + "&page=1"
-            + "&needContent=1"
-            + "&needHtml=0";
+    private static String httpUrl = "http://apis.baidu.com/showapi_open_bus/showapi_joke/joke_text";
+    //游戏最新
+    private static String httpArg = "page=1";
     private String getUrl=httpUrl+"?"+httpArg;
     private MySQLiteOpenHelper helper;
     private SQLiteDatabase readableDatabase;
@@ -142,8 +138,10 @@ public class FirstFragment extends Fragment {
                         reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
                         sb = new StringBuilder();
                         String line = "";
-                        while ((line = reader.readLine()) != null)
+                        while ((line = reader.readLine()) != null) {
                             sb.append(line);
+                            sb.append("\r\n");
+                        }
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -160,14 +158,14 @@ public class FirstFragment extends Fragment {
                     try {
                         JSONObject jsonObject_level_one=new JSONObject(sb.toString());
                         JSONObject jsonObject_level_two = jsonObject_level_one.getJSONObject("showapi_res_body");
-                        JSONObject jsonObject_level_three = jsonObject_level_two.getJSONObject("pagebean");
-                        JSONArray jsonArray = jsonObject_level_three.getJSONArray("contentlist");
+//                        JSONObject jsonObject_level_three = jsonObject_level_two.getJSONObject("pagebean");
+                        JSONArray jsonArray = jsonObject_level_two.getJSONArray("contentlist");
                         for(int i=0;i<jsonArray.length();i++)
                         {
                             JSONObject contentObject=jsonArray.getJSONObject(i);
                             String title = contentObject.getString("title");
-                            String content = contentObject.getString("content");
-                            String time = contentObject.getString("pubDate");
+                            String content = contentObject.getString("text");
+                            String time = contentObject.getString("ct");
                             readableDatabase.execSQL("insert into launone(title,time,content) values(?,?,?)", new String[]{title, time, content});
                             NewsPager np = new NewsPager(content, title, time);
                             pagerList.add(np);

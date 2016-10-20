@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
     private ImageButton fir_bt;
@@ -19,17 +20,17 @@ public class MainActivity extends Activity {
     private static long currentTime=0;
 
     //back键方法重写
-//    @Override
-//    public void onBackPressed() {
-//        //System.currentTimeMillis为当前时间距离1970-1-1的毫秒数
-//        if(System.currentTimeMillis()-currentTime>2000)
-//        {
-//            Toast.makeText(this,"再次点击back退出！",Toast.LENGTH_SHORT).show();
-//            currentTime = System.currentTimeMillis();
-//        }else{
-//            finish();
-//        }
-//    }
+    @Override
+    public void onBackPressed() {
+        //System.currentTimeMillis为当前时间距离1970-1-1的毫秒数
+        if(System.currentTimeMillis()-currentTime>2000)
+        {
+            Toast.makeText(this,"再次点击back退出！",Toast.LENGTH_SHORT).show();
+            currentTime = System.currentTimeMillis();
+        }else{
+            finish();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +112,7 @@ public class MainActivity extends Activity {
                         FragmentTransaction transaction=fragmentManager.beginTransaction();
                         ThirdFragment fragment_third=new ThirdFragment();
                         transaction.replace(R.id.frame_manager,fragment_third);
+                        transaction.addToBackStack(null);
                         transaction.commit();
 
                         cnt=3;
