@@ -16,7 +16,8 @@
                 android:layout_marginTop="40dp"
                 android:id="@+id/const_image"
                 android:layout_width="wrap_content"
-                android:layout_height="250dp"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
                 />
             <TextView
                 android:id="@+id/title_1"
@@ -36,7 +37,7 @@
             <TextView
                 android:id="@+id/title_2"
                 android:layout_alignLeft="@id/const_image"
-                android:layout_below="@id/today"
+                android:layout_below="@id/const_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="本周运势:"

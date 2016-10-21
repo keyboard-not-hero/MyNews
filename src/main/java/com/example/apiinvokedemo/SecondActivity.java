@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -51,6 +52,13 @@ public class SecondActivity extends Activity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String[] as = (String[]) msg.obj;
+            int height=getWindowManager().getDefaultDisplay().getHeight();
+            int width=getWindowManager().getDefaultDisplay().getWidth();
+            ViewGroup.LayoutParams params = constImage.getLayoutParams();
+
+            params.width = (int) (width*0.5);
+            params.height = (int) (height*0.5);
+            constImage.setLayoutParams(params);
             constImage.setImageResource(res[position]);
             today.setText(as[0]);
             week.setText(as[1]);
