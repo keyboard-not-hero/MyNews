@@ -3,49 +3,54 @@
               android:layout_width="match_parent"
               android:orientation="vertical"
               android:layout_height="match_parent">
-    <RelativeLayout
+    <ScrollView
         android:id="@+id/container_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-        <ImageView
-            android:layout_marginTop="40dp"
-            android:id="@+id/const_image"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            />
-        <TextView
-            android:id="@+id/title_1"
-            android:layout_toRightOf="@id/const_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="今日运势:"
-            android:textSize="25sp"/>
-        <TextView
-            android:id="@+id/today"
-            android:layout_below="@id/title_1"
-            android:layout_alignLeft="@id/title_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            />
-        <TextView
-            android:id="@+id/title_2"
-            android:layout_alignLeft="@id/const_image"
-            android:layout_below="@id/today"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="本周运势:"
-            android:textSize="25sp"/>
-        <TextView
-            android:id="@+id/week"
-            android:layout_below="@id/title_2"
-            android:layout_alignLeft="@id/title_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            />
-    </RelativeLayout>
+        android:visibility="gone"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <ImageView
+                android:layout_marginTop="40dp"
+                android:id="@+id/const_image"
+                android:layout_width="wrap_content"
+                android:layout_height="250dp"
+                />
+            <TextView
+                android:id="@+id/title_1"
+                android:layout_toRightOf="@id/const_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="今日运势:"
+                android:textSize="25sp"/>
+            <TextView
+                android:id="@+id/today"
+                android:layout_below="@id/title_1"
+                android:layout_alignLeft="@id/title_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                />
+            <TextView
+                android:id="@+id/title_2"
+                android:layout_alignLeft="@id/const_image"
+                android:layout_below="@id/today"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="本周运势:"
+                android:textSize="25sp"/>
+            <TextView
+                android:id="@+id/week"
+                android:layout_below="@id/title_2"
+                android:layout_alignLeft="@id/title_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                />
+        </RelativeLayout>
+    </ScrollView>
     <LinearLayout
         android:id="@+id/fresh_content"
         android:layout_width="match_parent"
@@ -68,4 +73,5 @@
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content"/>-->
     <!--</ScrollView>-->
+
 </LinearLayout>

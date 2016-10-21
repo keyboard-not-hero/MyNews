@@ -7,7 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -29,7 +29,7 @@ import static android.view.View.VISIBLE;
  */
 
 public class SecondActivity extends Activity {
-    private RelativeLayout contentLayout;
+    private ScrollView contentLayout;
     private ImageView constImage;
     private TextView today;
     private TextView week;
@@ -64,7 +64,7 @@ public class SecondActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_second);
         //初始化内容组件
-        contentLayout = (RelativeLayout) findViewById(R.id.container_content);
+        contentLayout = (ScrollView) findViewById(R.id.container_content);
         constImage = (ImageView) findViewById(R.id.const_image);
         today = (TextView) findViewById(R.id.today);
         week = (TextView) findViewById(R.id.week);
