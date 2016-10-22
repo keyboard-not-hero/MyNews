@@ -120,7 +120,7 @@ public class SecondActivity extends Activity {
     }
 
     private String getJson(String str){
-        StringBuilder sb = null;
+        StringBuilder sb = new StringBuilder();
         try {
             URL url = new URL(str);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -128,7 +128,6 @@ public class SecondActivity extends Activity {
             connection.setRequestProperty("apikey", "b7ab2b71060688d2813b170d6f866e8b");
             InputStream input = connection.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(input,"UTF-8"));
-            sb = new StringBuilder();
             String line="";
             while ((line = reader.readLine()) != null) {
                 sb.append(line);

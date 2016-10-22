@@ -128,7 +128,7 @@ public class FirstFragment extends Fragment {
                 @Override
                 public void run() {
                     BufferedReader reader = null;
-                    StringBuilder sb = null;
+                    StringBuilder sb = new StringBuilder();
                     try {
                         URL url = new URL(getUrl);
                         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -136,7 +136,6 @@ public class FirstFragment extends Fragment {
                         httpURLConnection.setRequestProperty("apikey", "b7ab2b71060688d2813b170d6f866e8b");
                         InputStream inputStream = httpURLConnection.getInputStream();
                         reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
-                        sb = new StringBuilder();
                         String line = "";
                         while ((line = reader.readLine()) != null) {
                             sb.append(line);
@@ -169,14 +168,13 @@ public class FirstFragment extends Fragment {
                             readableDatabase.execSQL("insert into launone(title,time,content) values(?,?,?)", new String[]{title, time, content});
                             NewsPager np = new NewsPager(content, title, time);
                             pagerList.add(np);
+                            Message msg = Message.obtain();
+                            msg.obj = pagerList;
+                            mHandler.sendMessage(msg);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-                    Message msg = Message.obtain();
-                    msg.obj = pagerList;
-                    mHandler.sendMessage(msg);
                 }
             }).start();
         }

@@ -38,6 +38,7 @@ import java.util.List;
  */
 public class ThirdFragment extends Fragment {
     private static final String TAG = "FirstFragment";
+    private static final int INIT_STATUS = 0;
 
     private ListView mListView;
     private List<NewsPager> newsList;
@@ -62,11 +63,16 @@ public class ThirdFragment extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            newsList = (List<NewsPager>) msg.obj;
-            mListView.setVisibility(View.VISIBLE);
-            mLinearLayout.setVisibility(View.GONE);
-            initListView();
-
+//            switch(msg.what) {
+//                case INIT_STATUS:
+                    newsList = (List<NewsPager>) msg.obj;
+                    mListView.setVisibility(View.VISIBLE);
+                    mLinearLayout.setVisibility(View.GONE);
+                    initListView();
+//                    break;
+//                default:
+//                    break;
+//            }
         }
     };
 
@@ -132,7 +138,7 @@ public class ThirdFragment extends Fragment {
                 @Override
                 public void run() {
                     BufferedReader reader = null;
-                    StringBuilder sb = null;
+                    StringBuilder sb = new StringBuilder();
                     try {
                         URL url = new URL(getUrl);
                         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -140,7 +146,6 @@ public class ThirdFragment extends Fragment {
                         httpURLConnection.setRequestProperty("apikey", "b7ab2b71060688d2813b170d6f866e8b");
                         InputStream inputStream = httpURLConnection.getInputStream();
                         reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
-                        sb = new StringBuilder();
                         String line = "";
                         while ((line = reader.readLine()) != null)
                             sb.append(line);
@@ -157,6 +162,8 @@ public class ThirdFragment extends Fragment {
                             }
                     }
                     List<NewsPager> pagerList = new ArrayList<NewsPager>();
+                    String address=sb.toString();
+
                     try {
                         JSONObject jsonObject_level_one=new JSONObject(sb.toString());
                         JSONObject jsonObject_level_two = jsonObject_level_one.getJSONObject("showapi_res_body");
@@ -171,14 +178,14 @@ public class ThirdFragment extends Fragment {
                             readableDatabase.execSQL("insert into launthree(title,time,content) values(?,?,?)", new String[]{title, time, content});
                             NewsPager np = new NewsPager(content, title, time);
                             pagerList.add(np);
+                            Message msg = Message.obtain();
+//                            msg.what=INIT_STATUS;
+                            msg.obj = pagerList;
+                            mHandler.sendMessage(msg);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-                    Message msg = Message.obtain();
-                    msg.obj = pagerList;
-                    mHandler.sendMessage(msg);
                 }
             }).start();
         }
