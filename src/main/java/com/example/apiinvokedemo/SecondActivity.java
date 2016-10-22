@@ -2,9 +2,11 @@ package com.example.apiinvokedemo;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,18 +48,22 @@ public class SecondActivity extends Activity {
     String httpArg = "?consName=";
     String httpArg1 = "&type=";
     private int position;
+    private Point mPoint = new Point(0, 0);
 
     private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String[] as = (String[]) msg.obj;
-            int height=getWindowManager().getDefaultDisplay().getHeight();
-            int width=getWindowManager().getDefaultDisplay().getWidth();
+//            int height=getWindowManager().getDefaultDisplay().getHeight();
+//            int width=getWindowManager().getDefaultDisplay().getWidth();
             ViewGroup.LayoutParams params = constImage.getLayoutParams();
 
-            params.width = (int) (width*0.5);
-            params.height = (int) (height*0.5);
+            getWindowManager().getDefaultDisplay().getSize(mPoint);
+            Log.d("crazy", "y=" + mPoint.y);
+            Log.d("crazy", "x=" + mPoint.x);
+            params.width = (int) (mPoint.x*0.5);
+            params.height = (int) (mPoint.y*0.5);
             constImage.setLayoutParams(params);
             constImage.setImageResource(res[position]);
             today.setText(as[0]);
