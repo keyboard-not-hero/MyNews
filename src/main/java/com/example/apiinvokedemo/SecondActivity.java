@@ -122,6 +122,7 @@ public class SecondActivity extends Activity {
     private String getJson(String str){
         StringBuilder sb = new StringBuilder();
         try {
+            //Thread.sleep(5000);
             URL url = new URL(str);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");

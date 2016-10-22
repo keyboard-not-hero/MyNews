@@ -2,7 +2,6 @@ package com.example.apiinvokedemo;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,7 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,8 +48,9 @@ public class FirstFragment extends Fragment {
     private MySQLiteOpenHelper helper;
     private SQLiteDatabase readableDatabase;
     private Cursor cursor;
-    private Context mContext;
+    private Activity mActivity;
     private LinearLayout mLinearLayout;
+    private LinearLayout mListContent;
 
 
     private Handler mHandler=new Handler(){
@@ -59,7 +58,7 @@ public class FirstFragment extends Fragment {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             newsList = (List<NewsPager>) msg.obj;
-            mListView.setVisibility(View.VISIBLE);
+            mListContent.setVisibility(View.VISIBLE);
             mLinearLayout.setVisibility(View.GONE);
             initListView();
 
@@ -70,16 +69,14 @@ public class FirstFragment extends Fragment {
         for(int i=0;i<newsList.size();i++){
             res.add(newsList.get(i).getTitle());
         }
-        Log.d(TAG, "res="+res);
-        Log.d(TAG, "getActivity="+getActivity());
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext,android.R.layout.simple_list_item_1,res);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mActivity,android.R.layout.simple_list_item_1,res);
 
 
         mListView.setAdapter(adapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), ContentActivity.class);
+                Intent intent = new Intent(mActivity, ContentActivity.class);
                 intent.putExtra("title",newsList.get(position).getTitle());
                 intent.putExtra("content", newsList.get(position).getContent());
                 intent.putExtra("time", newsList.get(position).getTime());
@@ -89,9 +86,9 @@ public class FirstFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity context) {
-        super.onAttach(context);
-        mContext = context;
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity = activity;
     }
 
     @Override
@@ -111,9 +108,10 @@ public class FirstFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         mLinearLayout = (LinearLayout) view.findViewById(R.id.loading);
         mListView = (ListView) view.findViewById(R.id.newstitle);
+        mListContent = (LinearLayout) view.findViewById(R.id.list_content);
 
         if(cursor.moveToFirst()) {
-            mListView.setVisibility(View.VISIBLE);
+            mListContent.setVisibility(View.VISIBLE);
             mLinearLayout.setVisibility(View.GONE);
             do{
                 String title = cursor.getString(cursor.getColumnIndex("title"));

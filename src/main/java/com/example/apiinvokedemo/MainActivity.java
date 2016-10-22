@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
         //System.currentTimeMillis为当前时间距离1970-1-1的毫秒数
         if(System.currentTimeMillis()-currentTime>2000)
         {
-            Toast.makeText(this,"再次点击back退出！",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"再次点击退出",Toast.LENGTH_SHORT).show();
             currentTime = System.currentTimeMillis();
         }else{
             finish();

@@ -5,13 +5,25 @@
     android:layout_height="match_parent"
     android:background="#ffffff"
     >
-
-    <ListView
-        android:id="@+id/newstitle"
+    <LinearLayout
+        android:id="@+id/list_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        />
+        android:orientation="vertical"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="热点新闻"
+            android:clickable="false"
+            android:background="#4F94CD"
+            android:textSize="25sp"/>
+        <ListView
+            android:id="@+id/newstitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </LinearLayout>
     <LinearLayout
         android:id="@+id/loading"
         android:orientation="horizontal"

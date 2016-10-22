@@ -57,22 +57,18 @@ public class ThirdFragment extends Fragment {
     private Cursor cursor;
     private Context mContext;
     private LinearLayout mLinearLayout;
+    private LinearLayout mListContent;
+
 
 
     private Handler mHandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-//            switch(msg.what) {
-//                case INIT_STATUS:
-                    newsList = (List<NewsPager>) msg.obj;
-                    mListView.setVisibility(View.VISIBLE);
-                    mLinearLayout.setVisibility(View.GONE);
-                    initListView();
-//                    break;
-//                default:
-//                    break;
-//            }
+            newsList = (List<NewsPager>) msg.obj;
+            mListContent.setVisibility(View.VISIBLE);
+            mLinearLayout.setVisibility(View.GONE);
+            initListView();
         }
     };
 
@@ -121,9 +117,11 @@ public class ThirdFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         mLinearLayout = (LinearLayout) view.findViewById(R.id.loading);
         mListView = (ListView) view.findViewById(R.id.newstitle);
+        mListContent = (LinearLayout) view.findViewById(R.id.list_content);
+
 
         if(cursor.moveToFirst()) {
-            mListView.setVisibility(View.VISIBLE);
+            mListContent.setVisibility(View.VISIBLE);
             mLinearLayout.setVisibility(View.GONE);
             do{
                 String title = cursor.getString(cursor.getColumnIndex("title"));
