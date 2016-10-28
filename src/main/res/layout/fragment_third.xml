@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#ffffff"
     >
     <LinearLayout
-        android:id="@+id/list_content"
+        android:id="@+id/list_content01"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:visibility="gone">
         <ListView
-            android:id="@+id/newstitle"
+            android:id="@+id/newstitle01"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="#0000"
             />
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/loading"
+        android:id="@+id/loading01"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -35,4 +35,4 @@
             android:text="加载中..."
             android:textSize="20sp"/>
     </LinearLayout>
-</RelativeLayout>
+</LinearLayout>

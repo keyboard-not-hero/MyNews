@@ -24,10 +24,14 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper{
         db.execSQL(CREATE_TABLE_ONE);
         db.execSQL(CREATE_TABLE_TWO);
         db.execSQL(CREATE_TABLE_THREE);
+        db.execSQL("alter table launone add column type integer");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        switch(oldVersion){
+            case 1:
+                db.execSQL("alter table launone add column type integer");
+        }
     }
 }

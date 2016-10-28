@@ -3,6 +3,7 @@ package com.example.apiinvokedemo;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -15,7 +16,7 @@ import android.widget.ListView;
 /**
  * Created by thompson on 16-10-18.
  */
-public class SecondFragment extends Fragment {
+public class SecondFragment extends Fragment implements MediaPlayer.OnPreparedListener{
     private ListView mListView;
     private String[] array = {"白羊座:3月21日～4月20日",
             "金牛座:4月21日～5月20日",
@@ -31,12 +32,19 @@ public class SecondFragment extends Fragment {
             "双鱼座:2月19日～3月20日"};
     private Activity mActivity;
 
+
     public static final String EXTRA_WHAT = "com.example.apiinvokedemo";
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = activity;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
     }
 
     @Nullable
@@ -56,5 +64,15 @@ public class SecondFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onPrepared(MediaPlayer mp) {
+        mp.start();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

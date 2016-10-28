@@ -2,7 +2,6 @@ package com.example.apiinvokedemo;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,7 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,28 +35,21 @@ import java.util.List;
  * Created by thompson on 16-10-18.
  */
 public class ThirdFragment extends Fragment {
-    private static final String TAG = "FirstFragment";
-    private static final int INIT_STATUS = 0;
+    private static final String TAG = "ThirdFragment";
 
     private ListView mListView;
     private List<NewsPager> newsList;
     private List<String> res;
-    //    private TextView mTextView;
-    private static String httpUrl = "http://apis.baidu.com/showapi_open_bus/channel_news/search_news";
-    private static String httpArg = "channelId=5572a109b3cdc86cf39001e6"
-            + "&channelName=%E5%9B%BD%E5%86%85%E6%9C%80%E6%96%B0"
-            + "&title=%E4%B8%8A%E5%B8%82"
-            + "&page=1"
-            + "&needContent=1"
-            + "&needHtml=0";
+
+    private static String httpUrl = "http://apis.baidu.com/showapi_open_bus/showapi_joke/joke_text";
+    private static String httpArg = "page=1";
     private String getUrl=httpUrl+"?"+httpArg;
     private MySQLiteOpenHelper helper;
     private SQLiteDatabase readableDatabase;
     private Cursor cursor;
-    private Context mContext;
+    private Activity mActivity;
     private LinearLayout mLinearLayout;
     private LinearLayout mListContent;
-
 
 
     private Handler mHandler=new Handler(){
@@ -69,6 +60,7 @@ public class ThirdFragment extends Fragment {
             mListContent.setVisibility(View.VISIBLE);
             mLinearLayout.setVisibility(View.GONE);
             initListView();
+
         }
     };
 
@@ -76,16 +68,14 @@ public class ThirdFragment extends Fragment {
         for(int i=0;i<newsList.size();i++){
             res.add(newsList.get(i).getTitle());
         }
-        Log.d(TAG, "res="+res);
-        Log.d(TAG, "getActivity="+getActivity());
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext,android.R.layout.simple_list_item_1,res);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mActivity,android.R.layout.simple_list_item_1,res);
 
 
         mListView.setAdapter(adapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), ContentActivity.class);
+                Intent intent = new Intent(mActivity, ContentActivity.class);
                 intent.putExtra("title",newsList.get(position).getTitle());
                 intent.putExtra("content", newsList.get(position).getContent());
                 intent.putExtra("time", newsList.get(position).getTime());
@@ -95,15 +85,15 @@ public class ThirdFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity context) {
-        super.onAttach(context);
-        mContext = context;
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity = activity;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        helper = new MySQLiteOpenHelper(getActivity(),"News.db",null,1);
+        helper = new MySQLiteOpenHelper(getActivity(),"News.db",null,2);
         newsList = new ArrayList<NewsPager>();
         res = new ArrayList<String>();
 
@@ -118,7 +108,6 @@ public class ThirdFragment extends Fragment {
         mLinearLayout = (LinearLayout) view.findViewById(R.id.loading);
         mListView = (ListView) view.findViewById(R.id.newstitle);
         mListContent = (LinearLayout) view.findViewById(R.id.list_content);
-
 
         if(cursor.moveToFirst()) {
             mListContent.setVisibility(View.VISIBLE);
@@ -145,8 +134,10 @@ public class ThirdFragment extends Fragment {
                         InputStream inputStream = httpURLConnection.getInputStream();
                         reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
                         String line = "";
-                        while ((line = reader.readLine()) != null)
+                        while ((line = reader.readLine()) != null) {
                             sb.append(line);
+                            sb.append("\r\n");
+                        }
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -160,27 +151,25 @@ public class ThirdFragment extends Fragment {
                             }
                     }
                     List<NewsPager> pagerList = new ArrayList<NewsPager>();
-                    String address=sb.toString();
-
                     try {
                         JSONObject jsonObject_level_one=new JSONObject(sb.toString());
                         JSONObject jsonObject_level_two = jsonObject_level_one.getJSONObject("showapi_res_body");
-                        JSONObject jsonObject_level_three = jsonObject_level_two.getJSONObject("pagebean");
-                        JSONArray jsonArray = jsonObject_level_three.getJSONArray("contentlist");
+//                        JSONObject jsonObject_level_three = jsonObject_level_two.getJSONObject("pagebean");
+                        JSONArray jsonArray = jsonObject_level_two.getJSONArray("contentlist");
                         for(int i=0;i<jsonArray.length();i++)
                         {
                             JSONObject contentObject=jsonArray.getJSONObject(i);
                             String title = contentObject.getString("title");
-                            String content = contentObject.getString("content");
-                            String time = contentObject.getString("pubDate");
+                            String content = contentObject.getString("text");
+                            String time = contentObject.getString("ct");
                             readableDatabase.execSQL("insert into launthree(title,time,content) values(?,?,?)", new String[]{title, time, content});
                             NewsPager np = new NewsPager(content, title, time);
                             pagerList.add(np);
-                            Message msg = Message.obtain();
-//                            msg.what=INIT_STATUS;
-                            msg.obj = pagerList;
-                            mHandler.sendMessage(msg);
+
                         }
+                        Message msg = Message.obtain();
+                        msg.obj = pagerList;
+                        mHandler.sendMessage(msg);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

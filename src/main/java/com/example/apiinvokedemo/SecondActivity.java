@@ -48,7 +48,7 @@ public class SecondActivity extends Activity {
     String httpArg = "?consName=";
     String httpArg1 = "&type=";
     private int position;
-    private Point mPoint = new Point(0, 0);
+    private Point mPoint = new Point();
 
     private Handler mHandler = new Handler(){
         @Override

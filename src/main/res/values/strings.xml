@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">简易新闻</string>
+    <string-array name="news_list">
+        <item>科技最新</item>
+        <item>娱乐最新</item>
+        <item>游戏最新</item>
+        <item>财经焦点</item>
+        <item>汽车焦点</item>
+        <item>民事最新</item>
+    </string-array>
+    <string-array name="news_address">
+        <item>5572a10ab3cdc86cf39001f4</item>
+        <item>5572a10ab3cdc86cf39001eb</item>
+        <item>5572a10ab3cdc86cf39001ee</item>
+        <item>5572a108b3cdc86cf39001d0</item>
+        <item>5572a108b3cdc86cf39001d3</item>
+        <item>5572a10ab3cdc86cf39001f0</item>
+    </string-array>
 </resources>
