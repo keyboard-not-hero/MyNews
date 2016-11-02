@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:textSize="20sp"
-            android:text="科技最新"/>
+            android:text="频道新闻"/>
         <Spinner
             android:id="@+id/spinner_list"
             android:layout_alignParentRight="true"
@@ -26,20 +26,15 @@
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="0dp">
-        <fragment
-            android:id="@+id/newsfragment"
-            android:name="com.example.apiinvokedemo.FirstFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+
     </FrameLayout>
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#636363"/>
+        android:background="#737373"/>
     <RadioGroup
         android:id="@+id/group"
-        android:paddingTop="5dp"
+        android:paddingTop="3dp"
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_height="wrap_content">

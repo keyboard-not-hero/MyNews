@@ -54,7 +54,7 @@ public class FirstFragment extends Fragment {
     private LinearLayout mLinearLayout;
     private LinearLayout mListContent;
     private String[] selection;
-    public static int mPosition;
+    public int mPosition;
 
 
     private Handler mHandler=new Handler(){
@@ -104,7 +104,6 @@ public class FirstFragment extends Fragment {
 
         selection = getResources().getStringArray(R.array.news_address);
         readableDatabase = helper.getWritableDatabase();
-        cursor = readableDatabase.rawQuery("select * from launone where type=?",new String[]{String.valueOf(mPosition)});
     }
 
     @Nullable
@@ -114,6 +113,7 @@ public class FirstFragment extends Fragment {
         mLinearLayout = (LinearLayout) view.findViewById(R.id.loading01);
         mListView = (ListView) view.findViewById(R.id.newstitle01);
         mListContent = (LinearLayout) view.findViewById(R.id.list_content01);
+        cursor = readableDatabase.rawQuery("select * from launone where type=?",new String[]{String.valueOf(mPosition)});
 
         if(cursor.moveToFirst()) {
             mListContent.setVisibility(View.VISIBLE);

@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 import static com.example.apiinvokedemo.R.id.frame_manager;
 
 public class MainActivity extends Activity{
@@ -27,6 +26,7 @@ public class MainActivity extends Activity{
     private TextView mTitle;
     private Spinner mSeletor;
     private String[] name;
+    private int position;
 
 
     //标注目前选中的按钮
@@ -57,6 +57,7 @@ public class MainActivity extends Activity{
         initTitleBar();
     }
 
+    //顶部组件初始化
     private void initTitleBar() {
         mTitle = (TextView) findViewById(R.id.title);
         mSeletor = (Spinner) findViewById(R.id.spinner_list);
@@ -67,17 +68,18 @@ public class MainActivity extends Activity{
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSeletor.setAdapter(adapter);
         mSeletor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 FragmentManager manager = getFragmentManager();
                 FirstFragment fragment = new FirstFragment();
-                FirstFragment.mPosition = position;
-                manager.beginTransaction().replace(R.id.frame_manager,fragment).commit();
+                MainActivity.this.position=position;
+                fragment.mPosition = position;
+                manager.beginTransaction().replace(R.id.frame_manager, fragment).commit();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
     }
@@ -106,14 +108,14 @@ public class MainActivity extends Activity{
 
                     if(cnt != 1)
                     {
-                        mSeletor.setVisibility(VISIBLE);
-                        mTitle.setText("科技最新");
-                        FragmentManager fragmentManager=getFragmentManager();
-                        FragmentTransaction transaction=fragmentManager.beginTransaction();
-                        FirstFragment fragment_one=new FirstFragment();
-                        transaction.replace(frame_manager,fragment_one);
+                        mSeletor.setVisibility(View.VISIBLE);
+                        mTitle.setText("频道新闻");
+                        FragmentManager fragmentManager = getFragmentManager();
+                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+                        FirstFragment fragment_one = new FirstFragment();
+                        fragment_one.mPosition = position;
+                        transaction.replace(frame_manager, fragment_one);
                         transaction.commit();
-
                         cnt=1;
                     }
                     break;
@@ -152,7 +154,6 @@ public class MainActivity extends Activity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        player.release();
         SQLiteDatabase db = helper.getWritableDatabase();
         db.execSQL("delete from launone");
         db.execSQL("delete from launtwo");
