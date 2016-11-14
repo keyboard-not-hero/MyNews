@@ -36,8 +36,6 @@ import java.util.List;
  * Created by thompson on 16-10-18.
  */
 public class FirstFragment extends Fragment {
-    private static final int INIT_STATUS = 0;
-
     private ListView mListView;
     private List<NewsPager> newsList;
     private List<String> res;
@@ -115,6 +113,11 @@ public class FirstFragment extends Fragment {
         mListContent = (LinearLayout) view.findViewById(R.id.list_content01);
         cursor = readableDatabase.rawQuery("select * from launone where type=?",new String[]{String.valueOf(mPosition)});
 
+        initView();
+        return view;
+    }
+
+    private void initView() {
         if(cursor.moveToFirst()) {
             mListContent.setVisibility(View.VISIBLE);
             mLinearLayout.setVisibility(View.GONE);
@@ -130,11 +133,11 @@ public class FirstFragment extends Fragment {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+//                    try {
+//                        Thread.sleep(5000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
                     String jsonData = getJson(httpUrl + selection[mPosition] + httpArg);
                     List<NewsPager> pagerList = new ArrayList<NewsPager>();
                     try {
@@ -162,8 +165,8 @@ public class FirstFragment extends Fragment {
                 }
             }).start();
         }
-        return view;
     }
+
     //下载json数据
     public String getJson(String str){
         BufferedReader reader = null;
